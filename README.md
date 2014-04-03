@@ -1,13 +1,24 @@
-wav2json
-========
+wav2json for Windows
+====================
+
+This is a fork of wav2json which includes Visual Studio 2013 project files and is ready to compile on Windows.
+
+Dependencies:
+-------------
+
+Boost Library: http://sourceforge.net/projects/boost/files/boost-binaries/1.55.0/
+Mega-Nerd libsndfile: http://www.mega-nerd.com/libsndfile/files/
+
+OLD
+===
 
 Generate waveformjs.org compatible json data out of wav files.
 
-Author: Benjamin Schulz
-
-email: beschulz[the a with the circle]betabugs.de  
-
+Original author: Benjamin Schulz
+email: beschulz@betabugs.de  
 License: GPL
+
+~~
 
 Note: the file examples/waveform.js is from http://waveformjs.org/
 
@@ -130,3 +141,4 @@ While it is highly appreciated, it is absolutely not necessary to us the softwar
 If you find any issues, feel free to contact me.
 and most important: enjoy and have fun :D
 
+~~
