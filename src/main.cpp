@@ -17,31 +17,31 @@ bool progress_callback(size_t percent)
 
 int main(int argc, char* argv[])
 {
-  Options options(argc, argv);
+    Options options(argc, argv);
 
-  using std::endl;
-  using std::cout;
-  using std::cerr;
+    using std::endl;
+    using std::cout;
+    using std::cerr;
 
-  std::ofstream output;
-  std::ostream ofs(std::cout.rdbuf());
+    std::ofstream output;
+    std::ostream ofs(std::cout.rdbuf());
 
-  // If the output file name provided is "-", use stdout.  Otherwise open the filename provided.
-  if (options.output_file_name != "-")
-  {
-    output.open(options.output_file_name.c_str());
-    ofs.rdbuf(output.rdbuf());
-  }
+    // If the output file name provided is "-", use stdout.  Otherwise open the filename provided.
+    if (options.output_file_name != "-")
+    {
+        output.open(options.output_file_name.c_str());
+        ofs.rdbuf(output.rdbuf());
+    }
 
 
-  //it appears, that javascript is fine with scientific notation
-  //ofs << std::fixed; //explicitly use fixed notation
-  //ofs << std::scientific;
-  ofs.precision( options.precision );
-  
-  ofs << "{" << std::endl;
+    //it appears, that javascript is fine with scientific notation
+    //ofs << std::fixed; //explicitly use fixed notation
+    //ofs << std::scientific;
+    ofs.precision( options.precision );
 
-  /*
+    ofs << "{" << std::endl;
+
+    /*
     Precision vs. file size benchmark:
 
     precision 6:
@@ -52,49 +52,58 @@ int main(int argc, char* argv[])
     presision 2:
     -rw-r--r--   1 beschulz  staff    384 Aug 18 19:55 test1.json
     -rw-r--r--   1 beschulz  staff  15291 Aug 18 19:55 test2.json
-    -rw-r--r--   1 beschulz  staff  19499 Aug 18 19:55 test3.json    
-  */
+    -rw-r--r--   1 beschulz  staff  19499 Aug 18 19:55 test3.json
+    */
 
-  if (!options.no_header)
-  {
-    ofs << "  \"_generator\":\"wav2json " << version::version << " on " << version::platform << "\"," << std::endl;
-  }
-
-  for(size_t i = 0; i != options.channels.size(); ++i)
-  {
-    // open sound file
-    SndfileHandle wav(options.input_file_name.c_str());
-
-    // handle error
-    if ( wav.error() )
+    if (!options.no_header)
     {
-        cerr << "Error opening audio file '" << options.input_file_name << "'" << endl;
-        cerr << "Error was: '" << wav.strError() << "'" << endl; 
-        return 2;
+        ofs << "  \"_generator\":\"wav2json " << version::version << " on " << version::platform << "\"," << std::endl;
     }
 
-    Options::Channel channel = options.channels[i];
+    for(size_t i = 0; i != options.channels.size(); ++i)
+    {
+        // open sound file
+        SndfileHandle wav(options.input_file_name.c_str());
 
-    ofs << "  \"" << channel << "\":";
+        // // output sound duration
+        // if (i == 0) {
+        // 	ofs << "  \"duration\":" << wav.frames()/(float)wav.samplerate() << "," << std::endl;	  
+        // }
 
-    compute_waveform(
-      wav,
-      ofs,
-      options.samples,
-      channel,
-      options.use_db_scale,
-      options.db_min,
-      options.db_max,
-      progress_callback
-    );
+        // handle error
+        if ( wav.error() )
+        {
+            cerr << "Error opening audio file '" << options.input_file_name << "'" << endl;
+            cerr << "Error was: '" << wav.strError() << "'" << endl;
+            return 2;
+        }
 
-    if (i != options.channels.size()-1) //only write comma, if this is not the last entry
-      ofs << "," << std::endl;
-  }
+        Options::Channel channel = options.channels[i];
 
-  ofs << std::endl << "}" << std::endl;
+        ofs << "  \"" << channel << "\":";
 
-  cerr << endl;
+        float sampleDur = compute_waveform(
+            wav,
+            ofs,
+            options.samples,
+            channel,
+            options.use_db_scale,
+            options.db_min,
+            options.db_max,
+            progress_callback
+            );
 
-  return 0;
+    // if (i != options.channels.size()-1) //only write comma, if this is not the last entry
+        ofs << "," << std::endl;
+        if (i == options.channels.size() - 1) {
+            ofs << std::endl;
+            ofs << "  \"duration\":" << sampleDur;
+        }
+    }
+
+    ofs << std::endl << "}" << std::endl;
+
+    cerr << endl;
+
+    return 0;
 }
