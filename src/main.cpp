@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 
   if (!options.no_header)
   {
-    ofs << "  \"_generator\":\"wav2json version " << version::version << " on " << version::platform << " (http://goo.gl/af7wg)\"," << std::endl;
+    ofs << "  \"_generator\":\"wav2json " << version::version << " on " << version::platform << "\"," << std::endl;
   }
 
   for(size_t i = 0; i != options.channels.size(); ++i)
