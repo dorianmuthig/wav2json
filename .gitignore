@@ -2,3 +2,7 @@
 .DS_Store
 example_data/*.wav
 *~
+/Debug
+/Release
+/Wav2Json.sdf
+*.suo
