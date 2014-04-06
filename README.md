@@ -26,14 +26,14 @@ This application is based on [wav2png](https://github.com/beschulz/wav2png/) but
 
 #Examples
 
-	wav2json song.wav --channels left right -o song.json
+    wav2json song.wav --channels left right -o song.json
 
 might produce output like
 
-	{
-		"left":[0,0.499969,0.865997,0.999969,0.865997,0.499969,0,0.5,0.866028,0,0.866028,0.5],
-		"right":[0,0.499969,0.865997,0.999969,0.865997,0.499969,0,0.5,0.866028,0,0.866028,0.5],
-	}
+    {
+        "left":[0,0.499969,0.865997,0.999969,0.865997,0.499969,0,0.5,0.866028,0,0.866028,0.5],
+        "right":[0,0.499969,0.865997,0.999969,0.865997,0.499969,0,0.5,0.866028,0,0.866028,0.5],
+    }
 
 Also take a look at some [example renderings](http://beschulz.github.com/wav2json/).
 
@@ -41,9 +41,9 @@ Also take a look at some [example renderings](http://beschulz.github.com/wav2jso
 Similar to wav2png (e.g. very good). But it might be a little slower, when generating output for multiple channels.
 Since the input file is opened multiple times, I'd recommend to write it to a temporary file first, so you can take advantage of the operating systems file cache:
 
-	sox ../song.mp3 -c 2 -t wav tmp.wav
-	wav2json tmp.wav --channels left right mid side min max -o song.json
-	rm tmp.wav
+    sox ../song.mp3 -c 2 -t wav tmp.wav
+    wav2json tmp.wav --channels left right mid side min max -o song.json
+    rm tmp.wav
 
 Also note, that you can dramatically reduce the file size, by reducing the precision of the output. In my tests, even a precision of 1 looked good.
 
@@ -55,14 +55,14 @@ Also note, that you can dramatically reduce the file size, by reducing the preci
     apt-get install make g++ libsndfile1-dev libboost-program-options-dev
 
 ### Build
-	cd build
+    cd build
     make all
 
 ## On Max OS
 
 ### install dependencies
 * Get the Xcode command line tools
-	* Starting with Xcode 4.3, Apple does not install command line tools by default anymore, so after Xcode installation, go to Preferences > Downloads > Components > Command Line Tools and click Install. You can also directly [download Command Line Tools](https://developer.apple.com/downloads) for Xcode without getting Xcode.
+    * Starting with Xcode 4.3, Apple does not install command line tools by default anymore, so after Xcode installation, go to Preferences > Downloads > Components > Command Line Tools and click Install. You can also directly [download Command Line Tools](https://developer.apple.com/downloads) for Xcode without getting Xcode.
 * [Install homebrew](https://github.com/mxcl/homebrew/wiki/installation)
 * install libsndfile: in the shell: ```brew install libsndfile```
 * install boost: in the shell: ```brew install boost```
@@ -73,49 +73,49 @@ Also note, that you can dramatically reduce the file size, by reducing the preci
 ### Add wav2json
 Either
 
-	mv ../bin/Darwin/wav2json /usr/local/bin
+    mv ../bin/Darwin/wav2json /usr/local/bin
 
 Or add this to your .bash_profile making sure to change the directory to where you cloned the repo
 
-	# wav2json
-	PATH=$PATH\:/Path/to/wav2json/src/wav2json/bin/Darwin ; export PATH
+    # wav2json
+    PATH=$PATH\:/Path/to/wav2json/src/wav2json/bin/Darwin ; export PATH
 
 #Usage
 
-	wav2json version 0.2
-	written by Benjamin Schulz (beschulz[the a with the circle]betabugs.de)
+    wav2json version 0.2
+    written by Benjamin Schulz (beschulz[the a with the circle]betabugs.de)
 
-	usage: wav2json [options] input_file_name
-	example: wav2json my_file.wav
+    usage: wav2json [options] input_file_name
+    example: wav2json my_file.wav
 
-	Allowed options:
+    Allowed options:
 
-	Generic options:
-	  -v [ --version ]      print version string
-	  --help                produce help message
+    Generic options:
+      -v [ --version ]      print version string
+      --help                produce help message
 
-	Configuration:
-	  -s [ --samples ] arg (=800)           number of samples to generate
-	  --channels arg (=left right )         channels to compute: left, right, mid, 
-	                                        side, min, max
-	  -p [ --precision ] arg (=6)           precision of the floats, that are 
-	                                        generated. [1..6], reduce for smaller 
-	                                        sized files. Usually 2 should be 
-	                                        sufficient!
-	  -o [ --output ] arg                   name of output file, defaults to <name 
-	                                        of inputfile>.json
-	  -c [ --config-file ] arg (=wav2json.cfg)
-	                                        config file to use
-	  -d [ --db-scale ]                     use logarithmic (e.g. decibel) scale 
-	                                        instead of linear scale
-	  --db-min arg (=-48)                   minimum value of the signal in dB, that
-	                                        will be visible in the waveform
-	  --db-max arg (=0)                     maximum value of the signal in dB, that
-	                                        will be visible in the waveform. 
-	                                        Useful if you know that your signal 
-	                                        peaks at a certain level.
-	  -n [ --no-header ]                    Do not include the version info banner 
-	                                        in the output
+    Configuration:
+      -s [ --samples ] arg (=800)           number of samples to generate
+      --channels arg (=left right )         channels to compute: left, right, mid, 
+                                            side, min, max
+      -p [ --precision ] arg (=6)           precision of the floats, that are 
+                                            generated. [1..6], reduce for smaller 
+                                            sized files. Usually 2 should be 
+                                            sufficient!
+      -o [ --output ] arg                   name of output file, defaults to <name 
+                                            of inputfile>.json
+      -c [ --config-file ] arg (=wav2json.cfg)
+                                            config file to use
+      -d [ --db-scale ]                     use logarithmic (e.g. decibel) scale 
+                                            instead of linear scale
+      --db-min arg (=-48)                   minimum value of the signal in dB, that
+                                            will be visible in the waveform
+      --db-max arg (=0)                     maximum value of the signal in dB, that
+                                            will be visible in the waveform. 
+                                            Useful if you know that your signal 
+                                            peaks at a certain level.
+      -n [ --no-header ]                    Do not include the version info banner 
+                                            in the output
 
 
 One thing, thats noteworthy is, that you can generate output for multiple cahannels:
