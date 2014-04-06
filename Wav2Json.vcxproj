@@ -283,8 +283,9 @@
     <ClInclude Include="src\wav2json.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".gitattributes" />
-    <None Include=".gitignore" />
+    <None Include="README.html">
+      <DependentUpon>README.md</DependentUpon>
+    </None>
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

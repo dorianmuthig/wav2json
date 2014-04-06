@@ -1,0 +1,164 @@
+<h1>wav2json for Windows</h1>
+
+<p>This is a fork of wav2json which includes Visual Studio 2013 project files and is ready to compile on Windows.</p>
+
+<h2>##Dependencies:</h2>
+
+<p>Boost Library: http://sourceforge.net/projects/boost/files/boost-binaries/1.55.0/</p>
+
+<p>Mega-Nerd libsndfile: http://www.mega-nerd.com/libsndfile/files/</p>
+
+<h1>OLD</h1>
+
+<p>Generate waveformjs.org compatible json data out of wav files.</p>
+
+<p>Original author: Benjamin Schulz
+email: beschulz@betabugs.de<br />
+License: GPL</p>
+
+<p>~~</p>
+
+<p>Note: the file examples/waveform.js is from http://waveformjs.org/</p>
+
+<p>This application is based on <a href="https://github.com/beschulz/wav2png/">wav2png</a> but does generate json data instead of pngs.</p>
+
+<h1>Examples</h1>
+
+<pre><code>wav2json song.wav --channels left right -o song.json
+</code></pre>
+
+<p>might produce output like</p>
+
+<pre><code>{
+    "left":[0,0.499969,0.865997,0.999969,0.865997,0.499969,0,0.5,0.866028,0,0.866028,0.5],
+    "right":[0,0.499969,0.865997,0.999969,0.865997,0.499969,0,0.5,0.866028,0,0.866028,0.5],
+}
+</code></pre>
+
+<p>Also take a look at some <a href="http://beschulz.github.com/wav2json/">example renderings</a>.</p>
+
+<h1>Performance</h1>
+
+<p>Similar to wav2png (e.g. very good). But it might be a little slower, when generating output for multiple channels.
+Since the input file is opened multiple times, I'd recommend to write it to a temporary file first, so you can take advantage of the operating systems file cache:</p>
+
+<pre><code>sox ../song.mp3 -c 2 -t wav tmp.wav
+wav2json tmp.wav --channels left right mid side min max -o song.json
+rm tmp.wav
+</code></pre>
+
+<p>Also note, that you can dramatically reduce the file size, by reducing the precision of the output. In my tests, even a precision of 1 looked good.</p>
+
+<h1>Installation</h1>
+
+<h2>On Linux (Ubuntu, Debian)</h2>
+
+<h3>install dependencies</h3>
+
+<pre><code>apt-get install make g++ libsndfile1-dev libboost-program-options-dev
+</code></pre>
+
+<h3>Build</h3>
+
+<pre><code>cd build
+make all
+</code></pre>
+
+<h2>On Max OS</h2>
+
+<h3>install dependencies</h3>
+
+<ul>
+<li>Get the Xcode command line tools
+<ul>
+<li>Starting with Xcode 4.3, Apple does not install command line tools by default anymore, so after Xcode installation, go to Preferences > Downloads > Components > Command Line Tools and click Install. You can also directly <a href="https://developer.apple.com/downloads">download Command Line Tools</a> for Xcode without getting Xcode.</li>
+</ul></li>
+<li><a href="https://github.com/mxcl/homebrew/wiki/installation">Install homebrew</a></li>
+<li>install libsndfile: in the shell: <code>brew install libsndfile</code></li>
+<li>install boost: in the shell: <code>brew install boost</code></li>
+</ul>
+
+<h3>Build</h3>
+
+<ul>
+<li>in the shell: <code>cd build &amp;&amp; make all</code></li>
+</ul>
+
+<h3>Add wav2json</h3>
+
+<p>Either</p>
+
+<pre><code>mv ../bin/Darwin/wav2json /usr/local/bin
+</code></pre>
+
+<p>Or add this to your .bash_profile making sure to change the directory to where you cloned the repo</p>
+
+<pre><code># wav2json
+PATH=$PATH\:/Path/to/wav2json/src/wav2json/bin/Darwin ; export PATH
+</code></pre>
+
+<h1>Usage</h1>
+
+<pre><code>wav2json version 0.2
+written by Benjamin Schulz (beschulz[the a with the circle]betabugs.de)
+
+usage: wav2json [options] input_file_name
+example: wav2json my_file.wav
+
+Allowed options:
+
+Generic options:
+  -v [ --version ]      print version string
+  --help                produce help message
+
+Configuration:
+  -s [ --samples ] arg (=800)           number of samples to generate
+  --channels arg (=left right )         channels to compute: left, right, mid, 
+                                        side, min, max
+  -p [ --precision ] arg (=6)           precision of the floats, that are 
+                                        generated. [1..6], reduce for smaller 
+                                        sized files. Usually 2 should be 
+                                        sufficient!
+  -o [ --output ] arg                   name of output file, defaults to &lt;name 
+                                        of inputfile&gt;.json
+  -c [ --config-file ] arg (=wav2json.cfg)
+                                        config file to use
+  -d [ --db-scale ]                     use logarithmic (e.g. decibel) scale 
+                                        instead of linear scale
+  --db-min arg (=-48)                   minimum value of the signal in dB, that
+                                        will be visible in the waveform
+  --db-max arg (=0)                     maximum value of the signal in dB, that
+                                        will be visible in the waveform. 
+                                        Useful if you know that your signal 
+                                        peaks at a certain level.
+  -n [ --no-header ]                    Do not include the version info banner 
+                                        in the output
+</code></pre>
+
+<p>One thing, thats noteworthy is, that you can generate output for multiple cahannels:</p>
+
+<ul>
+<li>left is the left channel of the audio file.</li>
+<li>right is the right channel of the audio file</li>
+<li>mid is the mid channel of the audio file computed per sample as: mid = (left + right) / 2</li>
+<li>side is the side channel of the audio file computed per sample as: side = (left + right) / 2</li>
+<li>max is the maximum of the channels of the audio file computed per sample as: max = max(left, right)</li>
+<li>min is the minimum of the channels of the audio file computed per sample as: min = min(left, right)</li>
+</ul>
+
+<p>Obviously outputting the right, mid, side, min, max channels does only make sense on stereo input. When the input is mono,
+the applications falls back to outputing the left channel and prints a warning to stderr.</p>
+
+<p>When there are more than two channels present, the output might be a little non-sensical, depending on what information is stored in the first and second channel.</p>
+
+<p>Also note, that if there are less samples in the audio file, than defined by --samples, only as many samples as there are in the audio file will be written to the json file. The interpolation should be done by waveform.js</p>
+
+<h1>Donations</h1>
+
+<p>If you find wav2png incredibly usefull nd use it a lot, feel free to make a small <a href="http://goo.gl/Ey2Bp">donation via paypal</a>.
+While it is highly appreciated, it is absolutely not necessary to us the software.</p>
+
+<p>If you find any issues, feel free to contact me.
+and most important: enjoy and have fun :D</p>
+
+<p>~~</p>

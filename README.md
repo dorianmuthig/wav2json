@@ -3,10 +3,11 @@ wav2json for Windows
 
 This is a fork of wav2json which includes Visual Studio 2013 project files and is ready to compile on Windows.
 
-Dependencies:
+##Dependencies:
 -------------
 
 Boost Library: http://sourceforge.net/projects/boost/files/boost-binaries/1.55.0/
+
 Mega-Nerd libsndfile: http://www.mega-nerd.com/libsndfile/files/
 
 OLD
