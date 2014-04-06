@@ -16,3 +16,4 @@ build/wav2json/.idea
 /Wav2Json.sdf
 /Wav2Json.opensdf
 bin/Debug/*
+/WE-Markdown.css

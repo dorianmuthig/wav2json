@@ -2,27 +2,25 @@
 
 <p>This is a fork of wav2json which includes Visual Studio 2013 project files and is ready to compile on Windows.</p>
 
-<h2>##Dependencies:</h2>
+<h3>Dependencies</h3>
 
 <p>Boost Library: http://sourceforge.net/projects/boost/files/boost-binaries/1.55.0/</p>
 
 <p>Mega-Nerd libsndfile: http://www.mega-nerd.com/libsndfile/files/</p>
 
-<h1>OLD</h1>
+<h3>About</h3>
 
-<p>Generate waveformjs.org compatible json data out of wav files.</p>
+<p>Generate waveformjs.org compatible json data out of audio files.</p>
 
-<p>Original author: Benjamin Schulz
-email: beschulz@betabugs.de<br />
-License: GPL</p>
+<p>Original author: Benjamin Schulz</p>
 
-<p>~~</p>
+<p>email: beschulz@betabugs.de</p>
 
-<p>Note: the file examples/waveform.js is from http://waveformjs.org/</p>
+<p>License: GPL</p>
 
-<p>This application is based on <a href="https://github.com/beschulz/wav2png/">wav2png</a> but does generate json data instead of pngs.</p>
+<p>~~Note: the file examples/waveform.js is from http://waveformjs.org/ ~~</p>
 
-<h1>Examples</h1>
+<h3>Examples</h3>
 
 <pre><code>wav2json song.wav --channels left right -o song.json
 </code></pre>
@@ -37,70 +35,44 @@ License: GPL</p>
 
 <p>Also take a look at some <a href="http://beschulz.github.com/wav2json/">example renderings</a>.</p>
 
-<h1>Performance</h1>
+<h3>Performance</h3>
 
 <p>Similar to wav2png (e.g. very good). But it might be a little slower, when generating output for multiple channels.
 Since the input file is opened multiple times, I'd recommend to write it to a temporary file first, so you can take advantage of the operating systems file cache:</p>
 
-<pre><code>sox ../song.mp3 -c 2 -t wav tmp.wav
+<pre><code>lame --decode ../song.mp3 tmp.wav
 wav2json tmp.wav --channels left right mid side min max -o song.json
-rm tmp.wav
+del tmp.wav
 </code></pre>
 
 <p>Also note, that you can dramatically reduce the file size, by reducing the precision of the output. In my tests, even a precision of 1 looked good.</p>
 
-<h1>Installation</h1>
+<h3>Installation</h3>
 
-<h2>On Linux (Ubuntu, Debian)</h2>
+<h4>Use the prebuilt binaries</h4>
 
-<h3>install dependencies</h3>
+<ol>
+<li>Download the appropriate version from the bin\Release directory</li>
+<li>Copy wav2json.exe and libsndfile-1.dll to any directory of yor liking and add that directpry to the PATH system variable</li>
+</ol>
 
-<pre><code>apt-get install make g++ libsndfile1-dev libboost-program-options-dev
-</code></pre>
+<h4>Build it yourself:</h4>
 
-<h3>Build</h3>
-
-<pre><code>cd build
-make all
-</code></pre>
-
-<h2>On Max OS</h2>
-
-<h3>install dependencies</h3>
+<h5>Install dependencies</h5>
 
 <ul>
-<li>Get the Xcode command line tools
-<ul>
-<li>Starting with Xcode 4.3, Apple does not install command line tools by default anymore, so after Xcode installation, go to Preferences > Downloads > Components > Command Line Tools and click Install. You can also directly <a href="https://developer.apple.com/downloads">download Command Line Tools</a> for Xcode without getting Xcode.</li>
-</ul></li>
-<li><a href="https://github.com/mxcl/homebrew/wiki/installation">Install homebrew</a></li>
-<li>install libsndfile: in the shell: <code>brew install libsndfile</code></li>
-<li>install boost: in the shell: <code>brew install boost</code></li>
+<li>Download the Boost C++ Libraries 1.55.0 binaries from http://sourceforge.net/projects/boost/files/boost-binaries/1.55.0/boost<em>1</em>55_0-bin-msvc-all-32-64.7z/download and unpack the file to C:\Program Files\boost\</li>
+<li>Download and install the libsndfile Windows binaries from http://www.mega-nerd.com/libsndfile/#Download</li>
 </ul>
 
-<h3>Build</h3>
+<h5>Build</h5>
 
-<ul>
-<li>in the shell: <code>cd build &amp;&amp; make all</code></li>
-</ul>
+<p>Open the Wav2Json solution file in Visual Studio and select Build -> Build Solution or simply press Ctrl+Shift+B</p>
 
-<h3>Add wav2json</h3>
+<h3>Usage</h3>
 
-<p>Either</p>
-
-<pre><code>mv ../bin/Darwin/wav2json /usr/local/bin
-</code></pre>
-
-<p>Or add this to your .bash_profile making sure to change the directory to where you cloned the repo</p>
-
-<pre><code># wav2json
-PATH=$PATH\:/Path/to/wav2json/src/wav2json/bin/Darwin ; export PATH
-</code></pre>
-
-<h1>Usage</h1>
-
-<pre><code>wav2json version 0.2
-written by Benjamin Schulz (beschulz[the a with the circle]betabugs.de)
+<pre><code>wav2json version 0.7
+written by Benjamin Schulz (beschulz@betabugs.de)
 
 usage: wav2json [options] input_file_name
 example: wav2json my_file.wav
@@ -135,7 +107,7 @@ Configuration:
                                         in the output
 </code></pre>
 
-<p>One thing, thats noteworthy is, that you can generate output for multiple cahannels:</p>
+<p>One thing, thats noteworthy is, that you can generate output for multiple channels:</p>
 
 <ul>
 <li>left is the left channel of the audio file.</li>
@@ -147,18 +119,12 @@ Configuration:
 </ul>
 
 <p>Obviously outputting the right, mid, side, min, max channels does only make sense on stereo input. When the input is mono,
-the applications falls back to outputing the left channel and prints a warning to stderr.</p>
+the applications falls back to outputting the left channel and prints a warning to stderr.</p>
 
 <p>When there are more than two channels present, the output might be a little non-sensical, depending on what information is stored in the first and second channel.</p>
 
 <p>Also note, that if there are less samples in the audio file, than defined by --samples, only as many samples as there are in the audio file will be written to the json file. The interpolation should be done by waveform.js</p>
 
-<h1>Donations</h1>
+<h3>Donations</h3>
 
-<p>If you find wav2png incredibly usefull nd use it a lot, feel free to make a small <a href="http://goo.gl/Ey2Bp">donation via paypal</a>.
-While it is highly appreciated, it is absolutely not necessary to us the software.</p>
-
-<p>If you find any issues, feel free to contact me.
-and most important: enjoy and have fun :D</p>
-
-<p>~~</p>
+<p>Please don't try to send me money. Money is the root of all evil. It would only get me in trouble with my bank or tax regulation authorities. Also, I didn't do most of the work on the project, so that hardly seems fair.</p>
