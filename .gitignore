@@ -15,4 +15,4 @@ build/wav2json/.idea
 *.suo
 /Wav2Json.sdf
 /Wav2Json.opensdf
-Debug/*
+bin/Debug/*
