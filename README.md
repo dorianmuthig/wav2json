@@ -53,7 +53,7 @@ Also note, that you can dramatically reduce the file size, by reducing the preci
 #### Use the prebuilt binaries
 
 1. Download the appropriate version from the bin\Release directory
-2. Copy wav2json.exe and libsndfile-1.dll to any directory of yor liking and add that directpry to the PATH system variable
+2. Copy wav2json.exe and libsndfile-1.dll to any directory of yor liking and add that directory to the PATH system variable
 
 
 #### Build it yourself:
