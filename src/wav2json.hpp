@@ -3,8 +3,8 @@
 
 #ifdef __OBJC__
     typedef bool (^progress_callback_t)(size_t progress);
-#else
+#else /* __OBJC__ */
     typedef bool (*progress_callback_t)(size_t progress);
-#endif
+#endif /* __OBJC__ */
 
-float compute_waveform(const SndfileHandle& wav, std::ostream& output_stream, size_t samples, Options::Channel channel, bool use_db_scale, float db_min, float db_max, progress_callback_t progress_callback);
+void compute_waveform(const SndfileHandle& wav, std::ostream& output_stream, size_t samples, Options::Channels channels, bool use_db_scale, float db_min, float db_max, progress_callback_t progress_callback);
