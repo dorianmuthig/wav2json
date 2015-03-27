@@ -39,9 +39,13 @@ float float2db(float x)
 	x = fabsf(x);
 
 	if (x > 0.0f)
+	{
 		return 20.0f * log10f(x);
+	}
 	else
+	{
 		return -9999.9f;
+	}
 }
 
 float db2float(float x)
@@ -62,40 +66,40 @@ T compute_sample(const std::vector<T>& block, int i, int n_channels, Options::Ch
 {
 	switch (channel)
 	{
-	case Options::LEFT:
-	{
-		return block[i];
-	}
-	case Options::RIGHT:
-	{
-		assert(n_channels == 2);
-		return block[i + 1];
-	}
-	case Options::MID:
-	{
-		assert(n_channels == 2);
-		return (block[i] + block[i + 1]) / T(2);
-	}
-	case Options::SIDE:
-	{
-		assert(n_channels == 2);
-		return (block[i] - block[i + 1]) / T(2);
-	}
-	case Options::MIN:
-	{
-		assert(n_channels == 2);
-		return std::min(block[i], block[i + 1]);
-	}
-	case Options::MAX:
-	{
-		assert(n_channels == 2);
-		return std::max(block[i], block[i + 1]);
-	}
-	default:
-	{
-		assert(false && "no such channel");
-		break;
-	}
+		case Options::LEFT:
+		{
+			return block[i];
+		}
+		case Options::RIGHT:
+		{
+			assert(n_channels == 2);
+			return block[i + 1];
+		}
+		case Options::MID:
+		{
+			assert(n_channels == 2);
+			return (block[i] + block[i + 1]) / T(2);
+		}
+		case Options::SIDE:
+		{
+			assert(n_channels == 2);
+			return (block[i] - block[i + 1]) / T(2);
+		}
+		case Options::MIN:
+		{
+			assert(n_channels == 2);
+			return std::min(block[i], block[i + 1]);
+		}
+		case Options::MAX:
+		{
+			assert(n_channels == 2);
+			return std::max(block[i], block[i + 1]);
+		}
+		default:
+		{
+			assert(false && "no such channel");
+			break;
+		}
 	}
 	return T(0);
 }
@@ -162,7 +166,7 @@ void compute_waveform(const SndfileHandle& wav, std::ostream& output_stream, siz
 	}
 
 	// create one vector of floats for each requested channel
-	std::vector<std::vector<float> > output_values(channels.size());
+	std::vector<std::vector<float>> output_values(channels.size());
 
 	// https://github.com/beschulz/wav2json/pull/7
 	// http://www.mega-nerd.com/libsndfile/api.html#note2
