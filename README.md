@@ -5,7 +5,7 @@ This is a fork of wav2json which includes Visual Studio 2013 project files and i
 
 ### Dependencies
 
-Boost Library: http://sourceforge.net/projects/boost/files/boost-binaries/1.55.0/
+Boost Library: http://sourceforge.net/projects/boost/files/boost-binaries/1.57.0/
 
 Mega-Nerd libsndfile: http://www.mega-nerd.com/libsndfile/files/
 
@@ -59,7 +59,7 @@ Also note, that you can dramatically reduce the file size, by reducing the preci
 #### Build it yourself:
 
 ##### Install dependencies
-- Download the Boost C++ Libraries 1.55.0 binaries from http://sourceforge.net/projects/boost/files/boost-binaries/1.55.0/boost_1_55_0-bin-msvc-all-32-64.7z/download and unpack the file to C:\Program Files\boost\
+- Download the Boost C++ Libraries 1.55.0 binaries from http://sourceforge.net/projects/boost/files/boost-binaries/1.57.0/boost_1_57_0-bin-msvc-all-32-64.7z/download and unpack the file to C:\Program Files\boost\
 - Download and install the libsndfile Windows binaries from http://www.mega-nerd.com/libsndfile/#Download
 
 ##### Build
@@ -67,7 +67,7 @@ Open the Wav2Json solution file in Visual Studio and select Build -> Build Solut
 
 ### Usage
 
-    wav2json version 0.7
+    wav2json version 0.4
     written by Benjamin Schulz (beschulz@betabugs.de)
 
     usage: wav2json [options] input_file_name
